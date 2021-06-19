@@ -10,14 +10,14 @@ const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Test route - return user info after auth'ed
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (error) {
-    console.error(err.message);
+    console.error(error.message);
     res.status(500).send('Server error');
   }
 });
@@ -72,7 +72,7 @@ router.post(
         }
       );
     } catch (error) {
-      console.error(err.message);
+      console.error(error.message);
       res.status(500).send('Server error');
     }
   }
