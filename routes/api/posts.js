@@ -30,7 +30,7 @@ router.post(
         user: req.user.id, // From Token inside req.user.id
         text: req.body.text, // User input
         name: user.name, // From logged in status
-        avatar: user.avatar, // From logged in status
+        avatar: user.avatar // From logged in status
       });
 
       const post = await newPost.save();
@@ -132,8 +132,7 @@ router.put('/like/:id', auth, async (req, res) => {
 
     // Check if the post has already been liked ( > 0: at least one like)
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
+      post.likes.filter(like => like.user.toString() === req.user.id).length > 0
     ) {
       return res.status(400).json({ msg: 'Post already liked' });
     }
@@ -158,15 +157,15 @@ router.put('/unlike/:id', auth, async (req, res) => {
 
     // Check if the post has not yet been liked ( === 0: no like)
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id)
-        .length === 0
+      post.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
     ) {
       return res.status(400).json({ msg: 'Post has not yet been liked' });
     }
 
     // Get remove index
     const removeIndex = post.likes
-      .map((like) => like.user.toString())
+      .map(like => like.user.toString())
       .indexOf(req.user.id);
 
     post.likes.splice(removeIndex, 1);
@@ -201,7 +200,7 @@ router.post(
         user: req.user.id, // From Token inside req.user.id
         text: req.body.text, // User input
         name: user.name, // From logged in status
-        avatar: user.avatar, // From logged in status
+        avatar: user.avatar // From logged in status
       };
 
       post.comments.unshift(newComment);
@@ -223,7 +222,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     // Find comment
     const comment = post.comments.find(
-      (comment) => comment.id === req.params.comment_id
+      comment => comment.id === req.params.comment_id
     );
 
     // Check comment exists
@@ -237,7 +236,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     }
 
     const removeIndex = post.comments
-      .map((comment) => comment.user.toString())
+      .map(comment => comment.user.toString())
       .indexOf(req.user.id);
 
     post.comments.splice(removeIndex, 1);

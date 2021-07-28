@@ -1,22 +1,29 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    password: ''
   });
 
   const { email, password } = formData;
 
-  const onChange = (e) => {
+  const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
-    console.log('Success');
+    login({ email, password });
   };
+
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>
@@ -24,14 +31,14 @@ const Login = () => {
       <p class='lead'>
         <i class='fas fa-user'></i> Sign into Your Account
       </p>
-      <form class='form' onSubmit={(e) => onSubmit(e)}>
+      <form class='form' onSubmit={e => onSubmit(e)}>
         <div class='form-group'>
           <input
             type='email'
             placeholder='Email Address'
             name='email'
             value={email}
-            onChange={(e) => onChange(e)}
+            onChange={e => onChange(e)}
             required
           />
         </div>
@@ -41,7 +48,7 @@ const Login = () => {
             placeholder='Password'
             name='password'
             value={password}
-            onChange={(e) => onChange(e)}
+            onChange={e => onChange(e)}
             required
           />
         </div>
@@ -54,4 +61,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);
