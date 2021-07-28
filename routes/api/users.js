@@ -46,14 +46,14 @@ router.post(
       const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',
-        d: 'mm',
+        d: 'mm'
       });
 
       user = new User({
         name,
         email,
         avatar,
-        password, // Not yet encrypted
+        password // Not yet encrypted
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -64,8 +64,8 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
-        },
+          id: user.id
+        }
       };
 
       jwt.sign(

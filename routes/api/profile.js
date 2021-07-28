@@ -41,8 +41,8 @@ router.post(
     auth,
     [
       body('status', 'Status is required').notEmpty(),
-      body('skills', 'Skills is required').notEmpty(),
-    ],
+      body('skills', 'Skills is required').notEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -64,7 +64,7 @@ router.post(
       twitter,
       facebook,
       linkedin,
-      instagram,
+      instagram
     } = req.body;
 
     // Build profile object
@@ -78,7 +78,7 @@ router.post(
     if (githubusername) profileFields.githubusername = githubusername;
     // Array for skills
     if (skills) {
-      profileFields.skills = skills.split(',').map((skill) => skill.trim());
+      profileFields.skills = skills.split(',').map(skill => skill.trim());
     }
 
     profileFields.social = {}; // Init to avoid 'undefined'
@@ -132,7 +132,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id,
+      user: req.params.user_id
     }).populate('user', ['name', 'avatar']);
 
     if (!profile) return res.status(400).json({ msg: 'Profile not found' });
@@ -176,8 +176,8 @@ router.put(
     [
       body('title', 'Title is required').notEmpty(),
       body('company', 'Company is required').notEmpty(),
-      body('from', 'From date is required').notEmpty(),
-    ],
+      body('from', 'From date is required').notEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -195,7 +195,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     };
 
     // console.log(newExp);
@@ -223,7 +223,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     // Get remove index - Which one to remove?
     // Match ':exp_id' to the 'id of exp' to be removed
     const removeIndex = profile.experiences
-      .map((item) => item.id)
+      .map(item => item.id)
       .indexOf(req.params.exp_id);
 
     profile.experiences.splice(removeIndex, 1);
@@ -247,8 +247,8 @@ router.put(
       body('school', 'School is required').notEmpty(),
       body('degree', 'Degree is required').notEmpty(),
       body('fieldofstudy', 'Field of Study is required').notEmpty(),
-      body('from', 'From date is required').notEmpty(),
-    ],
+      body('from', 'From date is required').notEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -266,7 +266,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     };
 
     try {
@@ -290,7 +290,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id });
 
     const removeIndex = profile.education
-      .map((item) => item.id)
+      .map(item => item.id)
       .indexOf(req.params.edu_id);
 
     profile.education.splice(removeIndex, 1);
@@ -315,7 +315,7 @@ router.get('/github/:username', (req, res) => {
         'githubClientId'
       )}&client_secret=${config.get('githubSecret')}`,
       method: 'GET',
-      headers: { 'User-Agent': 'hanpencnd' },
+      headers: { 'User-Agent': 'hanpencnd' }
     };
 
     request(options, (error, response, body) => {
