@@ -19,7 +19,7 @@ const Experience = ({ experience, deleteExperience }) => {
       </td>
       <td>
         <button
-          onClick={() => deleteExperience(exp._id)} // Note exp._id as per endpoint, not exp.id
+          onClick={() => deleteExperience(exp._id)} // exp._id as per endpoint, not exp.id
           className='btn btn-danger'
         >
           Delete
