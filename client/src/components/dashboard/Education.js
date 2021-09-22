@@ -19,7 +19,7 @@ const Education = ({ education, deleteEducation }) => {
       </td>
       <td>
         <button
-          onClick={() => deleteEducation(edu._id)} // edu._id as per endpoint, not edu.id
+          onClick={() => deleteEducation(edu._id)} // Note that edu._id as per endpoint, not edu.id
           className='btn btn-danger'
         >
           Delete
